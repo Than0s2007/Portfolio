@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Abdallah Hesham — Cybersecurity & .NET Backend</title>
+<meta name="description" content="Abdallah Hesham Ibrahim — Computer Science student at Minia University. Cybersecurity, Penetration Testing & .NET Backend Development." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+
+  :root{
+    --bg:#05030f;
+    --text:#e9e7f7;
+    --muted:#9a95b8;
+    --purple:#8b5cf6;
+    --cyan:#22d3ee;
+    --pink:#f472b6;
+    --border:rgba(255,255,255,.09);
+    --card:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Outfit',system-ui,-apple-system,sans-serif;
+    line-height:1.65;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block}
+  ::selection{background:rgba(139,92,246,.45);color:#fff}
+
+  /* ====== الخلفية الكونية ====== */
+  #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+  .nebula{position:fixed;inset:-15%;z-index:0;pointer-events:none;overflow:hidden}
+  .blob{
+    position:absolute;border-radius:50%;filter:blur(110px);opacity:.42;
+    transition:transform .9s cubic-bezier(.22,.61,.36,1);
+    will-change:transform;
+  }
+  .blob-1{width:46vmax;height:46vmax;left:-6%;top:-8%;background:radial-gradient(circle,#6d28d9,transparent 68%)}
+  .blob-2{width:40vmax;height:40vmax;right:-8%;top:18%;background:radial-gradient(circle,#0e7490,transparent 68%);opacity:.35}
+  .blob-3{width:38vmax;height:38vmax;left:28%;bottom:-14%;background:radial-gradient(circle,#be185d,transparent 70%);opacity:.28}
+
+  .cursor-glow{
+    position:fixed;top:0;left:0;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle,rgba(139,92,246,.16),rgba(34,211,238,.06) 40%,transparent 68%);
+    pointer-events:none;z-index:1;transform:translate(-50%,-50%);
+    transition:transform .18s ease-out;
+    will-change:transform;
+  }
+
+  /* ====== النافبار ====== */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px clamp(18px,5vw,48px);
+    background:rgba(5,3,15,.6);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:.4px}
+  .brand .orb{
+    width:32px;height:32px;border-radius:50%;
+    background:conic-gradient(from 210deg,#8b5cf6,#22d3ee,#f472b6,#8b5cf6);
+    box-shadow:0 0 22px rgba(139,92,246,.7);
+    animation:spin 9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .brand span{font-size:.98rem}
+
+  .nav-links{display:flex;gap:6px;align-items:center}
+  .nav-links a{
+    font-size:.9rem;color:var(--muted);padding:8px 14px;border-radius:999px;
+    transition:.25s;
+  }
+  .nav-links a:hover{color:#fff;background:rgba(139,92,246,.14)}
+  .nav-cta{
+    font-size:.88rem;font-weight:600;padding:9px 18px;border-radius:999px;
+    background:linear-gradient(120deg,#8b5cf6,#22d3ee);color:#06030f !important;
+    box-shadow:0 8px 26px -10px rgba(139,92,246,.9);
+  }
+  @media(max-width:760px){.nav-links{display:none}}
+
+  /* ====== التخطيط العام ====== */
+  main{position:relative;z-index:2}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(18px,5vw,40px)}
+  section{padding:clamp(70px,10vw,120px) 0}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--cyan);display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+
+  h2.title{
+    font-size:clamp(1.8rem,4.4vw,2.7rem);line-height:1.15;margin:0 0 14px;font-weight:700;
+    letter-spacing:-.02em;
+  }
+  .sub{color:var(--muted);max-width:620px;margin:0 0 44px}
+
+  /* ====== Hero ====== */
+  .hero{min-height:100svh;display:flex;align-items:center;padding-top:120px;padding-bottom:80px;position:relative}
+  .badge{
+    display:inline-flex;align-items:center;gap:9px;font-size:.82rem;color:#cfc8ee;
+    padding:7px 16px;border-radius:999px;border:1px solid rgba(139,92,246,.35);
+    background:rgba(139,92,246,.1);margin-bottom:26px;font-family:var(--mono);
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 12px #34d399;animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
+
+  .hero h1{
+    font-size:clamp(2.4rem,7vw,4.6rem);line-height:1.02;margin:0 0 18px;
+    font-weight:800;letter-spacing:-.035em;
+  }
+  .grad{
+    background:linear-gradient(110deg,#c4b5fd,#22d3ee 45%,#f472b6 80%,#c4b5fd);
+    background-size:250% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:shift 9s ease infinite;
+  }
+  @keyframes shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+  .typed{
+    font-family:var(--mono);font-size:clamp(.95rem,2.4vw,1.2rem);
+    color:#b9b3d8;min-height:1.7em;margin:0 0 22px;
+  }
+  .typed .caret{display:inline-block;width:9px;height:1.05em;background:var(--cyan);
+    vertical-align:-.16em;margin-left:3px;animation:blink 1s steps(2) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  .hero p.lead{color:var(--muted);max-width:600px;font-size:1.02rem;margin:0 0 36px}
+
+  .actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;padding:13px 26px;border-radius:999px;
+    font-weight:600;font-size:.94rem;transition:transform .25s, box-shadow .25s, background .25s;
+    border:1px solid transparent;
+  }
+  .btn-primary{
+    background:linear-gradient(120deg,#8b5cf6,#22d3ee);color:#06030f;
+    box-shadow:0 14px 40px -14px rgba(139,92,246,.95);
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 50px -14px rgba(34,211,238,.9)}
+  .btn-ghost{border-color:var(--border);color:var(--text);background:rgba(255,255,255,.03)}
+  .btn-ghost:hover{background:rgba(255,255,255,.07);transform:translateY(-3px)}
+
+  .socials{display:flex;gap:12px;margin-top:44px}
+  .socials a{
+    width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+    border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--muted);
+    transition:.25s;
+  }
+  .socials a:hover{color:#fff;border-color:rgba(139,92,246,.6);background:rgba(139,92,246,.15);transform:translateY(-3px)}
+  .socials svg{width:19px;height:19px}
+
+  .scroll-hint{
+    position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:#6f6a8d;
+    text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:9px;
+  }
+  .scroll-hint i{width:1px;height:34px;background:linear-gradient(var(--purple),transparent);animation:drop 1.8s infinite}
+  @keyframes drop{0%{opacity:0;transform:scaleY(.2)}50%{opacity:1}100%{opacity:0;transform:scaleY(1)}}
+
+  /* ====== كروت ====== */
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:20px;
+    padding:26px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    transition:transform .35s, border-color .35s, box-shadow .35s;
+    position:relative;overflow:hidden;
+  }
+  .card::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:radial-gradient(500px circle at var(--mx,50%) var(--my,0%),rgba(139,92,246,.13),transparent 62%);
+    opacity:0;transition:opacity .35s;
+  }
+  .card:hover::after{opacity:1}
+  .card:hover{transform:translateY(-5px);border-color:rgba(139,92,246,.45);
+    box-shadow:0 24px 60px -28px rgba(139,92,246,.7)}
+
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+
+  .card h3{margin:0 0 6px;font-size:1.12rem;font-weight:600;letter-spacing:-.01em}
+  .card p{margin:0;color:var(--muted);font-size:.94rem}
+
+  .skill-head{display:flex;align-items:center;gap:13px;margin-bottom:18px}
+  .ico{
+    width:44px;height:44px;border-radius:13px;display:grid;place-items:center;flex:0 0 auto;
+    border:1px solid rgba(255,255,255,.12);
+  }
+  .ico svg{width:21px;height:21px;stroke-width:1.7}
+  .ico.p{background:rgba(139,92,246,.16);color:#c4b5fd}
+  .ico.c{background:rgba(34,211,238,.14);color:#7dd3fc}
+  .ico.k{background:rgba(244,114,182,.14);color:#f9a8d4}
+
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .pill{
+    font-family:var(--mono);font-size:.74rem;padding:6px 12px;border-radius:999px;
+    background:rgba(139,92,246,.11);border:1px solid rgba(139,92,246,.24);color:#d5cff5;
+    transition:.25s;
+  }
+  .pill:hover{background:rgba(139,92,246,.26);border-color:rgba(139,92,246,.55);color:#fff}
+
+  /* ====== البروجكتس ====== */
+  .proj-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px}
+  .proj-link{
+    display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-family:var(--mono);
+    color:var(--cyan);border:1px solid rgba(34,211,238,.32);background:rgba(34,211,238,.08);
+    padding:7px 13px;border-radius:999px;white-space:nowrap;transition:.25s;flex:0 0 auto;
+  }
+  .proj-link:hover{background:rgba(34,211,238,.2);color:#fff}
+  .proj-link svg{width:13px;height:13px}
+
+  .bars{margin-top:18px;display:grid;gap:14px}
+  .bar-row{display:flex;justify-content:space-between;font-size:.8rem;font-family:var(--mono);color:var(--muted);margin-bottom:7px}
+  .bar{height:7px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
+  .bar span{
+    display:block;height:100%;width:0;border-radius:999px;
+    background:linear-gradient(90deg,#8b5cf6,#22d3ee);
+    transition:width 1.3s cubic-bezier(.22,.61,.36,1);
+  }
+  .reveal.in .bar span{width:var(--w)}
+
+  /* ====== الشهادات ====== */
+  .cert{display:flex;gap:16px;align-items:flex-start}
+  .cert .mark{
+    width:40px;height:40px;flex:0 0 auto;border-radius:12px;display:grid;place-items:center;
+    background:linear-gradient(140deg,rgba(139,92,246,.28),rgba(34,211,238,.16));
+    border:1px solid rgba(255,255,255,.12);color:#e9e7f7;
+  }
+  .cert .mark svg{width:19px;height:19px}
+  .cert small{display:block;color:#7d7896;font-size:.78rem;font-family:var(--mono);margin-top:5px}
+
+  /* ====== تايم لاين التعليم ====== */
+  .edu{
+    display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;
+    padding:28px;border-radius:20px;border:1px solid var(--border);
+    background:var(--card);backdrop-filter:blur(10px);
+  }
+  .edu .node{
+    width:14px;height:14px;border-radius:50%;margin-top:8px;
+    background:linear-gradient(140deg,#8b5cf6,#22d3ee);
+    box-shadow:0 0 0 5px rgba(139,92,246,.14),0 0 22px rgba(139,92,246,.8);
+  }
+  .edu .when{font-family:var(--mono);font-size:.78rem;color:var(--cyan);margin-bottom:5px}
+
+  /* ====== تواصل ====== */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:8px}
+  .contact-item{
+    display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:16px;
+    border:1px solid var(--border);background:rgba(255,255,255,.03);transition:.3s;
+  }
+  .contact-item:hover{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.5);transform:translateY(-3px)}
+  .contact-item .ico{width:38px;height:38px;border-radius:11px}
+  .contact-item .ico svg{width:17px;height:17px}
+  .contact-item b{display:block;font-size:.9rem;font-weight:600}
+  .contact-item span{font-size:.79rem;color:var(--muted);font-family:var(--mono);word-break:break-all}
+
+  /* ====== الفوتر ====== */
+  footer{
+    position:relative;z-index:2;text-align:center;padding:40px 20px 50px;
+    border-top:1px solid rgba(255,255,255,.06);color:#6f6a8d;font-size:.84rem;
+  }
+  footer .heart{color:var(--pink)}
+
+  /* ====== أنيميشن الظهور ====== */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="nebula" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<header class="nav">
+  <a href="#home" class="brand"><span class="orb"></span><span>Abdallah.</span></a>
+  <nav class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#certs">Certificates</a>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ================= HERO ================= -->
+  <section id="home" class="hero">
+    <div class="wrap">
+      <div class="badge"><span class="dot"></span> Open to internships</div>
+
+      <h1>Abdallah Hesham<br><span class="grad">Ibrahim</span></h1>
+
+      <p class="typed"><span id="typed"></span><span class="caret"></span></p>
+
+      <p class="lead">
+        Computer Science student at Minia University, passionate about Cybersecurity,
+        Penetration Testing and building secure .NET backend applications.
+      </p>
+
+      <div class="actions">
+        <a href="#projects" class="btn btn-primary">
+          View my work
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-ghost">Contact me</a>
+      </div>
+
+      <div class="socials">
+        <a href="https://github.com/Than0s2007" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.4-1.27.73-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/abdallah-elboshy-2258a525a/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05a3.75 3.75 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg>
+        </a>
+        <a href="mailto:heshamabdallah401@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2.5"/><path d="m2.5 7.5 9.5 5.7 9.5-5.7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-hint"><i></i>Scroll</div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about">
+    <div class="wrap">
+      <p class="eyebrow reveal">About me</p>
+      <h2 class="title reveal">Security-minded developer,<br>developer-minded security researcher</h2>
+      <p class="sub reveal d1">
+        I study Computer Science at Minia University and spend my time on two things that
+        feed each other: building backend systems with .NET, and breaking into web apps
+        to understand how they fail. That mix makes me write code that's aware of how it
+        can be attacked.
+      </p>
+
+      <div class="grid-3">
+        <div class="card reveal d1">
+          <h3>🎓 Education</h3>
+          <p>B.Sc. in Computer Science — Faculty of Computers and Information, Minia University. Expected 2029.</p>
+        </div>
+        <div class="card reveal d2">
+          <h3>🛡️ Focus</h3>
+          <p>Web application security, penetration testing, bug bounty, and secure .NET backend development.</p>
+        </div>
+        <div class="card reveal d3">
+          <h3>📍 Based in</h3>
+          <p>Egypt, Cairo — open to remote internships and collaborative security projects.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SKILLS ================= -->
+  <section id="skills">
+    <div class="wrap">
+      <p class="eyebrow reveal">Skills</p>
+      <h2 class="title reveal">What I work with</h2>
+      <p class="sub reveal d1">Hands-on tooling across backend engineering, Linux/networking fundamentals, and offensive security testing.</p>
+
+      <div class="grid-3">
+        <div class="card reveal d1">
+          <div class="skill-head">
+            <div class="ico p">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/></svg>
+            </div>
+            <h3>.NET Backend Development</h3>
+          </div>
+          <div class="pills">
+            <span class="pill">C#</span>
+            <span class="pill">ASP.NET Core MVC</span>
+            <span class="pill">RESTful APIs</span>
+            <span class="pill">Entity Framework Core</span>
+            <span class="pill">LINQ</span>
+            <span class="pill">Dependency Injection</span>
+            <span class="pill">Repository Pattern</span>
+            <span class="pill">SOLID</span>
+            <span class="pill">SQL Server</span>
+          </div>
+        </div>
+
+        <div class="card reveal d2">
+          <div class="skill-head">
+            <div class="ico c">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <h3>Linux &amp; Networking</h3>
+          </div>
+          <div class="pills">
+            <span class="pill">Kali Linux</span>
+            <span class="pill">Linux CLI</span>
+            <span class="pill">File Permissions</span>
+            <span class="pill">TCP/IP</span>
+            <span class="pill">DNS</span>
+            <span class="pill">HTTP / HTTPS</span>
+            <span class="pill">Ports &amp; Protocols</span>
+            <span class="pill">Troubleshooting</span>
+          </div>
+        </div>
+
+        <div class="card reveal d3">
+          <div class="skill-head">
+            <div class="ico k">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 4 6v6c0 4.6 3.2 8.6 8 9.5 4.8-.9 8-4.9 8-9.5V6l-8-3.5Z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg>
+            </div>
+            <h3>Cybersecurity &amp; Pentesting</h3>
+          </div>
+          <div class="pills">
+            <span class="pill">OWASP Top 10</span>
+            <span class="pill">Web App Security</span>
+            <span class="pill">Penetration Testing</span>
+            <span class="pill">Bug Bounty</span>
+            <span class="pill">Vulnerability Assessment</span>
+            <span class="pill">Reconnaissance</span>
+            <span class="pill">Subdomain Enumeration</span>
+            <span class="pill">Burp Suite</span>
+            <span class="pill">Nmap</span>
+            <span class="pill">FFUF</span>
+            <span class="pill">Linux PrivEsc</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects">
+    <div class="wrap">
+      <p class="eyebrow reveal">Projects &amp; practice</p>
+      <h2 class="title reveal">Things I've built and broken</h2>
+      <p class="sub reveal d1">Real labs, real writeups, real code — not just tutorial follow-alongs.</p>
+
+      <div class="grid-2">
+        <!-- eHoteloo -->
+        <div class="card reveal d1">
+          <div class="proj-top">
+            <h3>eHoteloo — Hotel Web App</h3>
+            <a class="proj-link" href="https://github.com/Than0s2007/eHoteloo-ASP.NET-Core" target="_blank" rel="noopener">
+              GitHub
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+          <p>Hotel-related web application built with ASP.NET Core, applying backend development concepts, layered architecture and database integration with Entity Framework Core.</p>
+          <div class="pills" style="margin-top:16px">
+            <span class="pill">ASP.NET Core</span>
+            <span class="pill">C#</span>
+            <span class="pill">EF Core</span>
+            <span class="pill">SQL Server</span>
+          </div>
+        </div>
+
+        <!-- Bug Bounty Writeup -->
+        <div class="card reveal d2">
+          <div class="proj-top">
+            <h3>Bug Bounty Research &amp; Writeup</h3>
+            <a class="proj-link" href="https://medium.com" target="_blank" rel="noopener">
+              Read on Medium
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+          <p>Authored a technical writeup exploring a potential pre-account-takeover vulnerability in a bug bounty context, documenting the vulnerability scenario and the underlying web application security concepts.</p>
+          <div class="pills" style="margin-top:16px">
+            <span class="pill">Account Takeover</span>
+            <span class="pill">Web Security</span>
+            <span class="pill">Technical Writing</span>
+          </div>
+        </div>
+
+        <!-- PortSwigger -->
+        <div class="card reveal d1">
+          <div class="proj-top">
+            <h3>PortSwigger Web Security Academy</h3>
+            <a class="proj-link" href="https://portswigger.net/web-security" target="_blank" rel="noopener">
+              Academy
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+          <p>Completed hands-on labs covering practical vulnerability identification and exploitation across all difficulty tiers.</p>
+          <div class="bars">
+            <div>
+              <div class="bar-row"><span>Apprentice</span><span>48 / 61</span></div>
+              <div class="bar"><span style="--w:79%"></span></div>
+            </div>
+            <div>
+              <div class="bar-row"><span>Practitioner</span><span>59 / 173</span></div>
+              <div class="bar"><span style="--w:34%"></span></div>
+            </div>
+            <div>
+              <div class="bar-row"><span>Expert</span><span>5 / 39</span></div>
+              <div class="bar"><span style="--w:13%"></span></div>
+            </div>
+            <div>
+              <div class="bar-row"><span>Overall progress</span><span>41%</span></div>
+              <div class="bar"><span style="--w:41%"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HTB -->
+        <div class="card reveal d2">
+          <div class="proj-top">
+            <h3>Hack The Box — Linux Labs</h3>
+            <a class="proj-link" href="https://app.hackthebox.com/" target="_blank" rel="noopener">
+              HTB
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+          <p>Practiced Linux penetration testing end-to-end: reconnaissance, service enumeration, vulnerability analysis, exploitation and privilege escalation.</p>
+          <div class="pills" style="margin-top:16px">
+            <span class="pill">Management</span><span class="pill">Nexus</span><span class="pill">Orion</span>
+            <span class="pill">Cohort</span><span class="pill">Bedside</span><span class="pill">Paperwork</span>
+            <span class="pill">Enigma</span><span class="pill">Connected</span><span class="pill">Reactor</span>
+            <span class="pill">TwoMillion</span><span class="pill">Silentium</span><span class="pill">CCTV</span>
+            <span class="pill">WingData</span><span class="pill">Facts</span><span class="pill">Soulmate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CERTIFICATES ================= -->
+  <section id="certs">
+    <div class="wrap">
+      <p class="eyebrow reveal">Certificates</p>
+      <h2 class="title reveal">Verified &amp; self-driven learning</h2>
+      <p class="sub reveal d1">Formal certifications plus self-study tracks I'm actively working through.</p>
+
+      <div class="grid-2">
+        <a class="card reveal d1" href="https://hackviser.com/verify?id=HV-CORE-OOW4KC3" target="_blank" rel="noopener">
+          <div class="cert">
+            <div class="mark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.5 13.5-1.5 7 5-2.5 5 2.5-1.5-7"/></svg>
+            </div>
+            <div>
+              <h3>CORE — Certified Cybersecurity Foundations</h3>
+              <p>Hackviser</p>
+              <small>Verified credential →</small>
+            </div>
+          </div>
+        </a>
+
+        <a class="card reveal d2" href="https://netriders.academy/completion-certificate?cert_hash=0a5da15e92a43886" target="_blank" rel="noopener">
+          <div class="cert">
+            <div class="mark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 4 6v6c0 4.6 3.2 8.6 8 9.5 4.8-.9 8-4.9 8-9.5V6l-8-3.5Z"/></svg>
+            </div>
+            <div>
+              <h3>Network Security Fundamentals</h3>
+              <p>Netriders Academy</p>
+              <small>Completion certificate →</small>
+            </div>
+          </div>
+        </a>
+
+        <div class="card reveal d1">
+          <div class="cert">
+            <div class="mark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h11l4 4v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M8 12h8M8 16h5"/></svg>
+            </div>
+            <div>
+              <h3>eWPT — Web Application Penetration Tester</h3>
+              <p>Self-study track</p>
+              <small>In progress</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal d2">
+          <div class="cert">
+            <div class="mark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h11l4 4v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M8 12h8M8 16h5"/></svg>
+            </div>
+            <div>
+              <h3>eWPTX — Web Application Penetration Tester eXtreme</h3>
+              <p>Self-study track</p>
+              <small>In progress</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EDUCATION ================= -->
+  <section id="education">
+    <div class="wrap">
+      <p class="eyebrow reveal">Education</p>
+      <h2 class="title reveal">Academic background</h2>
+
+      <div class="edu reveal d1">
+        <div class="node"></div>
+        <div>
+          <div class="when">06/2024 — 06/2029 · Minia, Egypt</div>
+          <h3 style="margin:0 0 8px;font-size:1.2rem">B.Sc. in Computer Science</h3>
+          <p style="margin:0 0 6px;color:var(--muted)">Faculty of Computers and Information — Minia University</p>
+          <p style="margin:0;color:var(--muted);font-size:.93rem">
+            Pursuing a Bachelor's degree with a strong interest in .NET backend development and cybersecurity.
+            Building practical software engineering skills through projects with C#, ASP.NET Core, EF Core and SQL Server,
+            complemented by hands-on security training, CTF challenges, web app security testing and bug bounty work.
+          </p>
+          <div class="pills" style="margin-top:16px">
+            <span class="pill">Arabic — Native</span>
+            <span class="pill">English — Good technical reading</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact">
+    <div class="wrap">
+      <p class="eyebrow reveal">Contact</p>
+      <h2 class="title reveal">Let's build something <span class="grad">secure</span>.</h2>
+      <p class="sub reveal d1">Open to internships, security collaborations and backend opportunities. The fastest way to reach me is email.</p>
+
+      <div class="contact-grid">
+        <a class="contact-item reveal d1" href="mailto:heshamabdallah401@gmail.com">
+          <div class="ico p">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9"><rect x="2" y="4" width="20" height="16" rx="2.5"/><path d="m2.5 7.5 9.5 5.7 9.5-5.7"/></svg>
+          </div>
+          <div><b>Email</b><span>heshamabdallah401@gmail.com</span></div>
+        </a>
+
+        <a class="contact-item reveal d1" href="tel:+201066386802">
+          <div class="ico c">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.9 2.2Z"/></svg>
+          </div>
+          <div><b>Phone</b><span>+20 106 638 6802</span></div>
+        </a>
+
+        <a class="contact-item reveal d2" href="https://www.linkedin.com/in/abdallah-elboshy-2258a525a/" target="_blank" rel="noopener">
+          <div class="ico k">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05a3.75 3.75 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg>
+          </div>
+          <div><b>LinkedIn</b><span>abdallah-elboshy</span></div>
+        </a>
+
+        <a class="contact-item reveal d2" href="https://github.com/Than0s2007" target="_blank" rel="noopener">
+          <div class="ico p">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.4-1.27.73-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+          </div>
+          <div><b>GitHub</b><span>Than0s2007</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Built with <span class="heart">♥</span> by Abdallah Hesham Ibrahim — © <span id="year"></span>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ============ 1) Starfield + parallax ============ */
+  const cvs = document.getElementById('stars');
+  const ctx = cvs.getContext('2d');
+  let W = 0, H = 0, DPR = 1;
+  let stars = [];
+  let mx = 0, my = 0, tx = 0, ty = 0;
+
+  function initStars() {
+    stars = [];
+    const count = Math.min(460, Math.floor((W * H) / 5200));
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        z: Math.random() * 0.85 + 0.15,     // depth → parallax strength
+        r: Math.random() * 1.35 + 0.25,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.018 + 0.004,
+        tint: Math.random() < 0.18 ? (Math.random() < 0.5 ? 265 : 190) : 0
+      });
+    }
+  }
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    cvs.width = Math.floor(W * DPR);
+    cvs.height = Math.floor(H * DPR);
+    cvs.style.width = W + 'px';
+    cvs.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    initStars();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // easing toward the mouse
+    tx += (mx - tx) * 0.045;
+    ty += (my - ty) * 0.045;
+
+    for (let i = 0; i < stars.length; i++) {
+      const s = stars[i];
+      s.phase += s.speed;
+
+      const alpha = 0.28 + Math.abs(Math.sin(s.phase)) * 0.62;
+
+      // parallax offset: deeper stars move more
+      let px = s.x + tx * s.z * 46;
+      let py = s.y + ty * s.z * 46;
+
+      // wrap around edges
+      px = ((px % W) + W) % W;
+      py = ((py % H) + H) % H;
+
+      ctx.beginPath();
+      ctx.arc(px, py, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = s.tint
+        ? 'hsla(' + s.tint + ', 92%, 76%, ' + alpha + ')'
+        : 'rgba(255,255,255,' + alpha + ')';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  if (reduceMotion) {
+    // static starfield only
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(function (s) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,.6)';
+      ctx.fill();
+    });
+  } else {
+    requestAnimationFrame(draw);
+  }
+
+  /* ============ 2) Mouse-driven effects ============ */
+  const blobs = document.querySelectorAll('.blob');
+  const glow = document.querySelector('.cursor-glow');
+  const cards = document.querySelectorAll('.card');
+
+  window.addEventListener('mousemove', function (e) {
+    const nx = e.clientX / window.innerWidth - 0.5;
+    const ny = e.clientY / window.innerHeight - 0.5;
+
+    // normalized -1..1 for the starfield
+    mx = nx * 2;
+    my = ny * 2;
+
+    // nebula blobs drift at different depths
+    blobs.forEach(function (b, i) {
+      const strength = (i + 1) * 26;
+      b.style.transform = 'translate(' + (nx * strength) + 'px,' + (ny * strength) + 'px)';
+    });
+
+    // cursor glow
+    glow.style.transform =
+      'translate(' + e.clientX + 'px,' + e.clientY + 'px) translate(-50%,-50%)';
+  }, { passive: true });
+
+  // card spotlight follows the pointer inside each card
+  cards.forEach(function (card) {
+    card.addEventListener('mousemove', function (e) {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  /* ============ 3) Typewriter roles ============ */
+  const roles = [
+    'Cybersecurity Enthusiast',
+    'Penetration Tester',
+    '.NET Backend Developer',
+    'Bug Bounty Hunter'
+  ];
+  const typedEl = document.getElementById('typed');
+  let rIndex = 0, cIndex = 0, deleting = false;
+
+  function type() {
+    const current = roles[rIndex];
+    typedEl.textContent = deleting
+      ? current.slice(0, --cIndex)
+      : current.slice(0, ++cIndex);
+
+    let delay = deleting ? 42 : 78;
+
+    if (!deleting && cIndex === current.length) {
+      delay = 1700;
+      deleting = true;
+    } else if (deleting && cIndex === 0) {
+      deleting = false;
+      rIndex = (rIndex + 1) % roles.length;
+      delay = 320;
+    }
+    setTimeout(type, delay);
+  }
+  if (reduceMotion) {
+    typedEl.textContent = roles[0];
+  } else {
+    setTimeout(type, 600);
+  }
+
+  /* ============ 4) Scroll reveal ============ */
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  revealEls.forEach(function (el) { io.observe(el); });
+
+  /* ============ 5) Footer year ============ */
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
